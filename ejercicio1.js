@@ -8,12 +8,12 @@ require(["esri/map",  "esri/geometry/Extent","dojo/domReady!"], function(Map, Ex
             spatialReference: {
                wkid: 102100
             }
-
-        }
-    );
+});
 
     var myMap = new Map('divMap', {
         basemap: 'satellite',
         center: [-4.69, 40.65],
         zoom: 12,
     })
+
+})
