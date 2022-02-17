@@ -1,4 +1,6 @@
-require(["esri/map", "esri/geometry/Extent", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/FeatureLayer", "esri/dijit/BasemapToggle", "esri/dijit/OverviewMap","esri/dijit/Legend","esri/dijit/Measurement","dojo/domReady!",
+require(["esri/map", "esri/geometry/Extent", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/FeatureLayer", "esri/dijit/BasemapToggle", "esri/dijit/OverviewMap","esri/dijit/Legend", "dojo/_base/array", "dojo/parser",
+"dijit/layout/BorderContainer", "dijit/layout/ContentPane",
+"dijit/layout/AccordionContainer", "dojo/domReady!",
 ], function (Map, Extent, ArcGISDynamicMapServiceLayer, FeatureLayer, BasemapToggle, OverviewMap, Legend, Measurement) {
     var map = new Map("divMap", {
         basemap: "topo",
@@ -30,21 +32,24 @@ require(["esri/map", "esri/geometry/Extent", "esri/layers/ArcGISDynamicMapServic
 
     var overviewMapDijit = new OverviewMap({
         map: map,
-        attachTo: "bottom-right",
-        color:" #D84E13",
-        opacity: .40
+        visible: 'bottom-right'
       });
+    OverviewMap,startup();
 
-    var measurement = new Measurement({
-        geometry: customPolyline,
-        map: map
-      }, dom.byId("Measurement"));
-      measurement.startup();
+    map.on("layers-add-result", function(){
+        var legend = new Legend({
+        map: map,
+        arrangement: Legend.ALIGN_RIGHT
+        layerInfos: [{
+            layer: lyrQuakes,
+            title: 'Titulo terremotos'
+        }, {
+            layer: lyrUSA,
+            
+        }]
+      }, "legendDiv");
+      legend.startup();
 
-    var dijitLegend = new Legend({
-        map : map,
-        arrangement : Legend.ALIGN_LEFT,
-      }, "LegendDiv");
-      dijitLegend.startup();
-
+    });
+      
 });
